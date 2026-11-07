@@ -1,6 +1,8 @@
 #include "audio/miniaudio/audio.h"
 extern "C" {
-#include "stb_vorbis.c"
+#define MA_NO_MP3
+#define MA_NO_FLAC
+#define MA_NO_ENCODING
 #define MINIAUDIO_IMPLEMENTATION
 #include "miniaudio.h"
 }
@@ -22,7 +24,7 @@ int miniaudio_audio_open() {
 		return 1;
 	}
 	
-	path = "sounds/f1sound1.ogg";
+	path = "sounds/f1sound1.wav";
 	for (i = 0; i < ENGINE_SOUND_COUNT; i++) {
 		result = ma_sound_init_from_file(&engine, path, MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING, NULL, NULL, &engine_sounds[i]);
 		if (result != MA_SUCCESS) {

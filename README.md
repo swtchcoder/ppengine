@@ -11,10 +11,6 @@ As a rough guide, you'll need:
 - Various SDL2 development libraries (the packages are called libsdl-*-dev on my Ubuntu installation);
 - The Open Scene Graph development libraries (the package is called libopenscenegraph-dev on my Ubuntu installation);
 
-Before running 'make' to execute the Makefile, set the GORILLA_AUDIO environment variable to the directly in which you've installed Gorilla Audio. For example:
-
-`export GORILLA_AUDIO=~/gorilla`
-
 Now, run the Makefile from within the top-level directory of the repository (the one containing the 'src' directory):
 
 `make`
