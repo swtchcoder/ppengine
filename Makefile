@@ -1,11 +1,7 @@
-ifndef GORILLA_AUDIO_PATH
-$(error Please set GORILLA_AUDIO_PATH to the path of your compiled Gorilla Audio installation. See http://code.google.com/p/gorilla-audio/ for more information.)
-endif
-
 CC = gcc
 CFLAGS = -O3 -I src
 CXX = g++
-CXXFLAGS = -O3 -std=c++98 -g -Wall -Wno-narrowing -I src -I $(GORILLA_AUDIO_PATH)/include -I ./src/ppengine
+CXXFLAGS = -O3 -std=c++98 -g -Wall -Wno-narrowing -I src -I ./src/ppengine -I thirdparty
 OSGFLAGS = -losg -losgDB -losgFX -losgGA -losgParticle -losgSim -losgText -losgUtil -losgTerrain -losgManipulator -losgViewer -losgWidget -losgShadow -losgAnimation -losgVolume -lOpenThreads -lpthread
 OPENALFLAGS = -lalut -lopenal
 
@@ -17,7 +13,7 @@ SCENE_COMMONDEPS = src/scene/scene.o src/scene/osg/scene.o src/scene/osg/hud_cam
 
 INPUT_COMMONDEPS = src/input/input.o src/input/keyboard_queue.o src/input/keyboard_handler.o
 
-AUDIO_COMMONDEPS = src/audio/audio.o src/audio/gorilla/audio.o $(GORILLA_AUDIO_PATH)/bin/linux/Release/libgorilla.a
+AUDIO_COMMONDEPS = src/audio/audio.o src/audio/miniaudio/audio.o
 
 default: client
 
@@ -88,8 +84,8 @@ src/input/keyboard_handler.o: src/input/keyboard_handler.c src/input/keyboard_ha
 src/audio/audio.o: src/audio/audio.c src/audio/audio.h
 	$(CXX) $(CXXFLAGS) -c src/audio/audio.c -o src/audio/audio.o
 
-src/audio/gorilla/audio.o: src/audio/gorilla/audio.c src/audio/gorilla/audio.h
-	$(CXX) $(CXXFLAGS) -c src/audio/gorilla/audio.c -o src/audio/gorilla/audio.o
+src/audio/miniaudio/audio.o: src/audio/miniaudio/audio.c src/audio/miniaudio/audio.h
+	$(CXX) $(CXXFLAGS) -c src/audio/miniaudio/audio.c -o src/audio/miniaudio/audio.o
 
 #####################################
 # ppengine                          #
