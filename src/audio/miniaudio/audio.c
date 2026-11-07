@@ -11,13 +11,34 @@ static ma_engine engine;
 static ma_sound engine_sounds[ENGINE_SOUND_COUNT];
 static ma_sound skidding_sound;
 
-void miniaudio_audio_open() {
+int miniaudio_audio_open() {
 	int i;
-	ma_engine_init(NULL, &engine);
-	for (i = 0; i < ENGINE_SOUND_COUNT; i++) {
-		ma_sound_init_from_file(&engine, "sounds/f1sound1.ogg", MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING, NULL, NULL, &engine_sounds[i]);
+	const char *path;
+	ma_result result;
+	
+	result = ma_engine_init(NULL, &engine);
+	if (result != MA_SUCCESS) {
+		fprintf(stderr, "ma_engine_init(): exited with code %d\n", result);
+		return 1;
 	}
-	ma_sound_init_from_file(&engine, "sounds/skidding.wav", MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING, NULL, NULL, &skidding_sound);
+	
+	path = "sounds/f1sound1.ogg";
+	for (i = 0; i < ENGINE_SOUND_COUNT; i++) {
+		result = ma_sound_init_from_file(&engine, path, MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING, NULL, NULL, &engine_sounds[i]);
+		if (result != MA_SUCCESS) {
+			fprintf(stderr, "ma_sound_init_from_file(\"%s\"): exited with code %d\n", path, result);
+			return 1;
+		}
+	}
+
+	path = "sounds/skidding.wav";
+	result = ma_sound_init_from_file(&engine, path, MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING, NULL, NULL, &skidding_sound);
+	if (result != MA_SUCCESS) {
+		fprintf(stderr, "ma_sound_init_from_file(\"%s\"): exited with code %d\n", path, result);
+		return 1;
+	}
+
+	return MINIAUDIO_SUCCESS;
 }
 
 void miniaudio_audio_start_engine_loop(int object_index) {

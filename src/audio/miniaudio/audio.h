@@ -3,7 +3,9 @@
 
 #include <inttypes.h>
 
-void miniaudio_audio_open();
+#define MINIAUDIO_SUCCESS 0
+
+int miniaudio_audio_open();
 void miniaudio_audio_start_engine_loop(int object_index);
 void miniaudio_audio_stop_engine_loop(int object_index);
 void miniaudio_audio_set_engine_attributes(int object_index, uint32_t pitch,uint16_t pan,int32_t volume);

@@ -12,8 +12,14 @@ static int previous_player_engine_sound_active;
 static int previous_player_type_and_visibility;
 static int previous_skidding_volume;
 
-void audio_open() {
-	miniaudio_audio_open();
+int audio_open() {
+	int result;
+	result = miniaudio_audio_open();
+	if (result != MINIAUDIO_SUCCESS) {
+		fprintf(stderr, "miniaudio_audio_open(): exited with code %d\n", result);
+		return 1;
+	}
+	return AUDIO_SUCCESS;
 }
 
 void audio_close() {
