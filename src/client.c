@@ -10,12 +10,19 @@ extern "C" {
 #include "sub/data/track_curve_data.h"
 
 int main(void) {
+	int result;
 	engine_initialise();
 	engine_register_sound_effect_callback(audio_play_effect);
 	track_geometry_initialise(track_curve_data);
 	scene_open(scenery_objects);
 	input_initialise();
-	audio_open();
+	result = audio_open();
+	if (result != AUDIO_SUCCESS) {
+		fprintf(stderr, "audio_open(): exited with code %d\n", result);
+		scene_close();
+		track_geometry_terminate();
+		return 1;
+	}
 	while (scene_active()) {
 		update_engine_state_from_input();
 		engine_execute_frame();
